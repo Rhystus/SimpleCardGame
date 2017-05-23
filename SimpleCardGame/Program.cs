@@ -81,7 +81,7 @@ namespace SimpleCardGame
                 }
                 Console.WriteLine("Done.");
             }
-            Console.WriteLine("Exiting program.");
+            Console.WriteLine("Exiting program...");
             Thread.Sleep(1000);
         }
 
