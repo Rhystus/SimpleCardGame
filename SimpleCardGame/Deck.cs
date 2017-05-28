@@ -117,5 +117,20 @@ namespace SimpleCardGame
             }
             deck = newDeck;
         }
+
+        // there has to be a better way to do this
+        /// <summary>
+        /// Adds an array of cards to the top of the deck
+        /// </summary>
+        /// <param name="cards"></param>
+        public void AddToTop(Card[] cards)
+        {
+            deck.Reverse();
+            for (int i = 0; i < cards.Count(); i++) { 
+                this.AddCard(cards[i]);
+            }
+            deck.Reverse();
+        }
+
     }
 }

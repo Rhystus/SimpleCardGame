@@ -28,14 +28,13 @@ namespace SimpleCardGame
             Console.WriteLine("6: Clear deck");
             Console.WriteLine("7: Generate 4 card deck");
             Console.WriteLine("8: Shuffle discard with deck");
+            Console.WriteLine("9: Add an array of cards to the top of the deck");
             Console.WriteLine("0: Close program");
             #endregion
 
             ConsoleKeyInfo currentKey;
             while (!(currentKey = Console.ReadKey()).Key.Equals(ConsoleKey.D0))
             {
-                // Console.WriteLine(currentKey.Key.ToString());
-
                 switch (currentKey.Key)
                 {
                     case ConsoleKey.D1:
@@ -73,6 +72,11 @@ namespace SimpleCardGame
                     case ConsoleKey.D8:
                         Console.WriteLine("Shuffling discard with deck...");
                         sessionDeck.ShuffleTogether(discardPile);
+                        break;
+
+                    case ConsoleKey.D9:
+                        Console.WriteLine("Adding cards to top of deck...");
+                        // add cards to the top of the deck
                         break;
                         
                     default:
