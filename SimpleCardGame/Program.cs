@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Threading;
+using NLua;
 
 namespace SimpleCardGame
 {
@@ -29,6 +30,7 @@ namespace SimpleCardGame
             Console.WriteLine("7: Generate 4 card deck");
             Console.WriteLine("8: Shuffle discard with deck");
             Console.WriteLine("9: Add an array of cards to the top of the deck");
+            Console.WriteLine("A: Test the Lua integration");
             Console.WriteLine("0: Close program");
             #endregion
 
@@ -78,7 +80,12 @@ namespace SimpleCardGame
                         Console.WriteLine("Adding cards to top of deck...");
                         // add cards to the top of the deck
                         break;
-                        
+
+                    case ConsoleKey.A:
+                        Console.WriteLine("Testing Lua integration...");
+                        luaIntegration();
+                        break;
+
                     default:
                         Console.WriteLine("Key not supported.");
                         break;
@@ -87,6 +94,46 @@ namespace SimpleCardGame
             }
             Console.WriteLine("Exiting program...");
             Thread.Sleep(1000);
+        }
+
+        private static void luaIntegration()
+        {
+            try
+            {
+                Lua lua = new Lua();
+                lua.DoFile(".\\Lua\\example.lua");
+                LuaFunction hello = lua["hello"] as LuaFunction;
+                hello.Call();
+
+                //call function that return string
+                LuaFunction returnHello = lua["returnHello"] as LuaFunction;
+                var funcHello = (String)returnHello.Call().First();
+                Console.WriteLine("---call and return a string = " + funcHello);
+                //or
+                var funcHello1 = lua.DoString("return returnHello()");
+                Console.WriteLine("---DoString and return a string = " + funcHello1.First().ToString());
+
+                //call function that return sum two number
+                var sumAandB = lua.DoString("return sumAandB(1,2)");
+                Console.WriteLine("---return sum two numbers = " + sumAandB.First().ToString());
+
+                //call function that return table                
+                var objTable = lua.DoString("return getTable()"); //object[]
+                Console.WriteLine("---return a table or a class");
+                foreach (LuaTable lstObj in objTable)
+                {
+                    foreach (KeyValuePair<object, object> i in lstObj)
+                    {
+                        Console.WriteLine("{0} = {1}", i.Key.ToString(), i.Value.ToString());
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Exception:" + ex + ".");
+                Console.WriteLine(System.IO.Directory.GetCurrentDirectory().ToString());
+            }
         }
 
     }
